@@ -1,27 +1,110 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+html {
+  font-family: "Poppins", sans-serif;
+}
+body {
+  min-height: 100vh;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  width: 100vw;
+
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+.property-page h1 {
+  @apply text-[32px];
+}
+.property-page h2 {
+  @apply text-[24px];
+}
+.property-page h3 {
+  @apply text-[18.72px];
+}
+.property-page h4 {
+  @apply text-[16px];
+}
+.property-page b {
+  @apply font-extrabold;
+}
+.property-page strong {
+  @apply font-[800];
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+.property-page ol li {
+  @apply list-decimal ml-10;
+}
+.property-page ul li {
+  @apply list-disc ml-10;
+}
+.form-fields input,
+textarea,
+select,
+input[type="files"],
+input {
+  @apply border-admin_gray border-2 rounded-md p-2;
+}
+.settings-menu span {
+  @apply hover:text-admin_purple;
+}
+table.products {
+  @apply w-full;
+}
+thead tr td {
+  @apply bg-blue-100 p-1;
+}
+table tbody tr td {
+  @apply border p-1;
+}
+table.products a {
+  @apply w-fit border-transparent ease-linear border-2 hover:bg-transparent duration-300 text-center text-white p-2 rounded-md mx-2 cursor-pointer inline-flex items-center gap-1;
+}
+.form-fields label {
+  @apply text-gray-500;
+}
+
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #57c5b6;
+  border-color: #57c5b6 transparent #57c5b6 transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  border: none;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #615de0;
+  border-radius: 10px;
+}
+.product-head td {
+  min-width: fit-content;
+  padding: 10px;
 }
