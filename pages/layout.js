@@ -46,7 +46,7 @@ export default function HomeLayout({ children, hideFilter }) {
           <Cities city={params?.query?.city} hidden={hideFilter} />
         </div>
         <div className="w-[95%] min-h-screen flex flex-col">{children}</div>
-        <ContactFormB />
+
         <Footer />
       </div>
     </QueryClientProvider>
