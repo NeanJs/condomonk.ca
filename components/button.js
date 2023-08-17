@@ -15,7 +15,9 @@ export default function Button({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`ease duration-300 flex flex-row items-center px-4 py-2 border-2 gap-1 border-admin_blue text-center w-fit ${
+      className={`
+      ${disabled && "opacity-40"}
+      ease duration-300 flex flex-row items-center px-4 py-2 border-2 gap-1 border-admin_blue text-center w-fit ${
         isRounded ? "rounded-full" : "rounded-lg"
       } ${
         primary
@@ -25,7 +27,8 @@ export default function Button({
       ${className} ${
         alt &&
         "bg-admin_red border-admin_red text-white hover:text-admin_red hover:border-admin_red"
-      }`}
+      } 
+      `}
     >
       {title || children}
     </button>

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,7 +14,7 @@ body {
   overflow-x: hidden;
 }
 .property-page h1 {
-  @apply text-[32px];
+  @apply text-6xl;
 }
 .property-page h2 {
   @apply text-[24px];
@@ -24,12 +24,6 @@ body {
 }
 .property-page h4 {
   @apply text-[16px];
-}
-.property-page b {
-  @apply font-extrabold;
-}
-.property-page strong {
-  @apply font-[800];
 }
 
 .property-page ol li {
@@ -107,4 +101,16 @@ table.products a {
 .product-head td {
   min-width: fit-content;
   padding: 10px;
+}
+
+/* HOMEPAGE */
+.title-prop {
+  font-size: 1.7rem !important;
+  font-weight: 700;
+}
+.social-links a {
+  @apply w-10 h-10;
+}
+.contact-form-b.form-fields *:not(button, span, label){
+@apply h-16 bg-admin_gray rounded-lg;
 }

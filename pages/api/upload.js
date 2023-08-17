@@ -35,7 +35,9 @@ export default async function handler(req, res) {
     });
     if (files.file) {
       for (let file of files.file) {
-        const fileName = `properties/${fields.name + file.originalFilename}`;
+        const fileName = `${fields.type}/${
+          fields.name + file.originalFilename
+        }`;
         await client.send(
           new PutObjectCommand({
             Bucket: process.env.DO_SPACES_BUCKET,

@@ -1,43 +1,32 @@
-"use client";
-import { fetchCities } from "@/services/locations";
-
+import { preconCityList } from "@/constants/preconCities";
 import { useRouter } from "next/navigation";
-import { useQuery } from "react-query";
-import { Loader } from "./Loader";
 
-export default function Cities({ className, city, hidden }) {
-  const { data: cities, isLoading } = useQuery("locations", fetchCities, {
-    staleTime: Infinity,
-    refetchInterval: 0,
-  });
+export default function Cities({ city, hidden }) {
+  // const { data: cities, isLoading } = useQuery("locations", fetchCities, {
+  //   staleTime: Infinity,
+  //   refetchInterval: 0,
+  // });
 
   const route = useRouter();
 
   return (
     <div
-      className={`w-full h-fit locations bg-admin_gray p-4 ${
-        hidden && "hidden"
-      }`}
+      className={`w-full h-fit locations bg-admin_gray ${hidden && "hidden"}`}
     >
-      {isLoading ? (
-        <div className="p-4 flex gap-2 text-xl items-center">
-          <Loader />
-          <span>Fetching Cities</span>
-        </div>
-      ) : cities?.length > 0 ? (
+      {preconCityList?.length > 0 ? (
         <div className="flex gap-2 items-center flex-wrap ">
           <div className={`cities flex gap-2 items-center p-4 overflow-scroll`}>
-            {cities?.map((dat) => (
+            {preconCityList?.map((dat) => (
               <span
-                onClick={() => route.push(dat.name)}
-                className={`min-w-fit h-fit p-2 shadow-lg cursor-pointer hover:bg-black hover:text-white ease-linear duration-300 ${
-                  city == dat.name
-                    ? "bg-black text-white"
-                    : "bg-white text-black"
+                onClick={() => route.push(dat.city_name)}
+                className={`min-w-fit h-fit px-4 pt-4 pb-3 shadow-lg cursor-pointer bg-white border-transparent border-b-4 hover:border-black ease-linear duration-300 rounded-lg ${
+                  city == dat.city_name
+                    ? "border-black border-b-4"
+                    : "border-transparent"
                 }`}
-                key={dat._id}
+                key={dat.city_name}
               >
-                {dat.name}
+                {dat.city_name_cap}
               </span>
             ))}
           </div>

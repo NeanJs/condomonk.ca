@@ -3,7 +3,12 @@ import Link from "next/link";
 
 import { FcHome } from "react-icons/fc";
 import { usePathname } from "next/navigation";
-import { MdSpaceDashboard, MdSettings, MdFeedback } from "react-icons/md";
+import {
+  MdSpaceDashboard,
+  MdSettings,
+  MdFeedback,
+  MdPerson,
+} from "react-icons/md";
 
 import { BsCloudUploadFill } from "react-icons/bs";
 import Button from "./button";
@@ -27,9 +32,9 @@ export default function Sidebar() {
       path: "admin/cities",
     },
     {
-      title: "Settings",
-      icon: <MdSettings />,
-      path: "admin/settings",
+      title: "Developers",
+      icon: <MdPerson />,
+      path: "admin/developers",
     },
   ];
   const handleLogout = () => {};
@@ -38,7 +43,7 @@ export default function Sidebar() {
     <aside className="sidebar left-0 flex flex-col bg-primary p-4 h-screen w-fit gap-8">
       <Link
         href={""}
-        className="flex items-end gap-2 mb-4 px-2 font-extrabold text-xs md:text-2xl tracking-wider"
+        className="flex items-end gap-2 mb-4 px-2  text-xs md:text-2xl tracking-wider"
       >
         <span className="flex items-center gap-2 text-xl capitalize ">
           <FcHome />

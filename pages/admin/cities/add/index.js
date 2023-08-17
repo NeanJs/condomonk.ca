@@ -25,8 +25,9 @@ export default function CityForm({ cityProps }) {
   const route = useRouter();
   return (
     <Layout>
+      <Button onClick={() => route.back()}>Go Back</Button>
       <div className="flex flex-col gap-2 bg-admin_white p-4 rounded-lg">
-        <span className="text-admin_purple text-xl font-bold">
+        <span className="text-admin_purple text-xl mb-5">
           {cityProps?._id ? "Edit location" : "Add a new location"}
         </span>
         <Formik

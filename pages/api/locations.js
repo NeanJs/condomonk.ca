@@ -9,7 +9,11 @@ export default async function handler(req, res) {
       res.json(await Location.findOne({ _id: req.query.id }));
       return;
     } else if (req.query?.name) {
-      res.json(await Location.findOne({ name: req.query.name }));
+      res.json(
+        await Location.findOne({
+          name: { $regex: req.query.name, $options: "i" },
+        })
+      );
       return;
     } else {
       res.status(200).json({

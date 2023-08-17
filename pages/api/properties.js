@@ -6,12 +6,16 @@ export default async function handler(req, res) {
   await mongooseConnect();
   res.setHeader("Content-Type", "application/json");
   if (method == "GET") {
-    if (req.query?.id) {
-      res.json(await Property.findOne({ _id: req.query.id }));
+    if (req.query?.slug) {
+      res.json(await Property.findOne({ slug: req.query.slug }));
       return;
     }
     if (req.query?.city) {
-      res.json({ data: await Property.find({ location: req.query.city }) });
+      res.json({
+        data: await Property.find({
+          city: { $regex: req.query.city, $options: "i" },
+        }),
+      });
       return;
     }
     res.send({
@@ -21,8 +25,22 @@ export default async function handler(req, res) {
     return;
   }
   if (method == "POST") {
-    const { name, location, deposit, occupancy, pictures, description } =
-      req.body;
+    const {
+      name,
+      developer,
+      price,
+      type,
+      status,
+      completion,
+      city,
+      address,
+      postalcode,
+      description,
+      deposits,
+      pictures,
+      floorPlans,
+      slug,
+    } = req.body;
     if (!req.body) {
       res.send(404).json({
         message: "One or more fields missing!",
@@ -31,11 +49,19 @@ export default async function handler(req, res) {
     } else {
       await Property.create({
         name,
-        location,
-        deposit,
-        occupancy,
-        pictures,
+        developer,
+        price,
+        type,
+        status,
+        completion,
+        city,
+        address,
+        postalcode,
         description,
+        deposits,
+        pictures,
+        floorPlans,
+        slug,
       });
       res.send({
         message: "Property added successfully!",
@@ -44,17 +70,40 @@ export default async function handler(req, res) {
     }
   }
   if (method == "PUT") {
-    const { name, location, occupancy, deposit, pictures, _id, description } =
-      req.body;
+    const {
+      name,
+      developer,
+      price,
+      type,
+      status,
+      completion,
+      city,
+      address,
+      postalcode,
+      description,
+      deposits,
+      pictures,
+      floorPlans,
+      slug,
+      _id,
+    } = req.body;
     const updatedProperty = await Property.findByIdAndUpdate(
       { _id },
       {
         name,
-        location,
-        occupancy,
-        deposit,
-        pictures,
+        developer,
+        price,
+        type,
+        status,
+        completion,
+        city,
+        address,
+        postalcode,
         description,
+        deposits,
+        pictures,
+        floorPlans,
+        slug,
       }
     );
     res.status(200).json({

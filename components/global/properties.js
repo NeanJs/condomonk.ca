@@ -9,7 +9,7 @@ import { api } from "@/handlers/axios";
 import { useQuery } from "react-query";
 import { fetchCities } from "@/services/locations";
 import { Loader } from "./Loader";
-
+import { checkPricing } from "@/handlers/checkPricing";
 export default function Properties({ admin }) {
   const [properties, setProperties] = useState([]);
   const {
@@ -103,36 +103,36 @@ export default function Properties({ admin }) {
           <div className="flex w-full max-h-full properties-body justify-start">
             {properties?.length > 0 ? (
               <div
-                className={`properties-list gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 overflow-y-auto ${
-                  admin ? "h-[400px]" : "min-h-screen"
+                className={`properties-list gap-4 grid grid-cols-1 lg:grid-cols-2  md:grid-cols-2 xl:grid-cols-4 overflow-y-auto p-4 ${
+                  admin ? "h-[500px]" : "min-h-screen"
                 }`}
               >
                 {properties?.map((property, id) => (
                   <div
                     key={property._id}
-                    className="property min-w-[280px] bg-admin_white max-h-full min-h-[500px] shadow-lg flex flex-col"
+                    className="property min-w-[280px] bg-admin_white h-[480px] shadow-lg flex flex-col gap-1 rounded-xl overflow-hidden"
                   >
                     <img
-                      className="w-full object-cover min-h-[300px] object-top"
+                      className="w-full object-cover min-h-[240px]"
                       src={property?.pictures[0]?.url}
                     />
 
                     <div className="property-details flex flex-col items-start gap-2 p-2 md:text-sm">
-                      <span className="text-lg font-bold">
-                        {id + 1 + ". " + property?.name}
+                      <span className="text-xl font-medium">
+                        {property?.name}
                       </span>
-                      <span className="text-admin_skyblue font-bold text-lg">
-                        $ {property?.deposit}
+                      <span className="text-admin_skyblue  text-lg">
+                        {checkPricing(property?.price)}
                       </span>
-                      <span className="text-admin_dark font-semibold">
-                        {property?.name}, {property?.location}
+                      <span className="text-admin_dark">
+                        {property?.address}
                       </span>
-                      <span>Occupancy: {property?.occupancy}</span>
+                      <span>Move in {property?.completion}</span>
                       {admin && (
                         <span className="action-btns flex gap-2">
                           <Button
                             onClick={() =>
-                              router.push(`properties/${property._id}`)
+                              router.push(`properties/${property.slug}`)
                             }
                           >
                             Edit
