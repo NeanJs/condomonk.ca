@@ -1,4 +1,5 @@
 import { Field, Form, Formik } from "formik";
+import { toast } from "react-toastify";
 import Button from "./button";
 
 export default function ContactFormB() {
@@ -23,7 +24,8 @@ export default function ContactFormB() {
         <Formik
           initialValues={initialValues}
           onSubmit={(values) => {
-            console.log(values);
+            // console.log(values);
+            toast.success("Message sent successfully1")
           }}
         >
           <Form className="flex contact-form-b form-fields flex-col p-4 w-full mx-auto gap-3">

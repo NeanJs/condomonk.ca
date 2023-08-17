@@ -1,4 +1,5 @@
 import { Field, Form, Formik } from "formik";
+import { toast } from "react-toastify";
 import Button from "./button";
 
 export default function ContactForm() {
@@ -14,13 +15,14 @@ export default function ContactForm() {
   };
   return (
     <div className="flex flex-col gap-.5 items-center sticky top-0">
-      <img src="/reg.png" className="mx-auto"/>
+      <img src="/reg.png" className="mx-auto" />
 
       <div className="flex w-full lg:w-4/5 bg-white shadow-xl rounded-xl">
         <Formik
           initialValues={initialValues}
           onSubmit={(values) => {
-            console.log(values);
+            // console.log(values);
+            toast.success("Message sent successfully1");
           }}
         >
           <Form className="flex form-fields flex-col p-4 w-full mx-auto gap-3">
