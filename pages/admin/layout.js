@@ -29,7 +29,6 @@ export default function Layout({ children }) {
           <div className="w-full h-full flex flex-col relative gap-2">
             {children}
           </div>
-          <ContactFormB />
         </div>
       </div>
       <ToastContainer />
