@@ -84,7 +84,7 @@ export default function Property({ property, related }) {
             <div className="property-content flex flex-col gap-2 lg:w-3/5 my-4">
               <span className="text-4xl font-semibold">{property?.name}</span>
               <span className="text-lg">
-                By{" "}
+                By 
                 <strong className="font-semibold text-black">
                   {property?.developer?.name}
                 </strong>

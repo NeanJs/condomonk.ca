@@ -22,7 +22,7 @@ export default function PropertyBlock({
           } in ${city}`}</span>
           {!related && (
             <p className="text-admin_dark text-xs lg:text-sm">
-              New {properties?.length} Pre construction Condos for sale in{" "}
+              New {properties?.length} Pre construction Condos for sale in 
               {city} | Check out plans, pricing, availability for pre
               construction condos in {city}
             </p>

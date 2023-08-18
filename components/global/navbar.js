@@ -40,7 +40,6 @@ export default function Navbar() {
                         : ""
                     }`}
                   >
-                    {" "}
                     {city.name}
                   </Link>
                 ))}

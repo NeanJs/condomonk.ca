@@ -132,7 +132,7 @@ export default function Footer() {
                 alt="Instagram Icon which links to condomonk instagram page"
                 className="img-fluid social-icon"
               />
-            </a>{" "}
+            </a>
             <a
               href="https://www.linkedin.com/company/condomonk/about/?viewAsMember=true"
               className=" text-center"

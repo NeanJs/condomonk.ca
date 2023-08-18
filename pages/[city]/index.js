@@ -55,7 +55,7 @@ export default function PropertyByCity({ properties, cityData }) {
           } New Pre construction Condos for sale in ${
             cityData?.name || capitalize(city)
           }|
-        Check out plans, pricing, availability for pre construction hcondosomes in{" "}
+        Check out plans, pricing, availability for pre construction hcondosomes in 
         ${cityData?.name || capitalize(city)}`}
         />
       </Head>
@@ -66,7 +66,7 @@ export default function PropertyByCity({ properties, cityData }) {
           </h1>
 
           <p className="text-admin_dark text-sm">
-            {properties?.length} New Pre construction Condos for sale in{" "}
+            {properties?.length} New Pre construction Condos for sale in
             {capitalize(city)} | Check out plans, pricing, availability for pre
             construction condos in {capitalize(city)}
           </p>
