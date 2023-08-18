@@ -159,7 +159,6 @@ table.products a {
   background: white !important;
   width: 100%;
   z-index: 1000;
-  /* transform: translateY(100%); */
 }
 iframe {
   @apply w-[300px] md:w-full lg:w-full;
