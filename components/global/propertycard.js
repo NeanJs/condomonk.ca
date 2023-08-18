@@ -31,8 +31,8 @@ export default function PropertyCard({ property, id }) {
         )}
 
         <div className="property-details flex flex-col items-start gap-2 p-2 md:text-sm">
-          <span className="text-xl">{property?.name}</span>
-          <span className="text-admin_skyblue text-lg">
+          <span className="text-xl font-semibold">{property?.name}</span>
+          <span className="text-condo_red text-lg">
             {checkPricing(property?.price)}
           </span>
           <span className="text-admin_dark">{property?.address}</span>

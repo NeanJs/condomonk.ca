@@ -1,4 +1,5 @@
 import PropertyBlock from "@/blocks/property";
+import ContactFormB from "@/components/ContactFormB";
 import { fetchProperties } from "@/services/properties";
 import Head from "next/head";
 
@@ -48,6 +49,7 @@ export default function Home({
           <PropertyBlock properties={list_4?.properties} city={list_4?.city} />
           <PropertyBlock properties={list_5?.properties} city={list_5?.city} />
           <PropertyBlock properties={list_6?.properties} city={list_6?.city} />
+          <ContactFormB property={undefined} />
         </div>
       </HomeLayout>
     </>

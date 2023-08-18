@@ -1,10 +1,9 @@
-"use client";
-import { fetchCities } from "@/services/locations";
+import { addCity, fetchCities } from "@/services/locations";
 import { Field, Form, Formik } from "formik";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
-import { FiCopy, FiLoader, FiMapPin, FiUpload } from "react-icons/fi";
+import CreatableSelect from "react-select/creatable";
+import { FiLoader, FiUpload } from "react-icons/fi";
 import Button from "@/components/button";
 import UPLOAD_IMAGE from "@/assets/upload_images.svg";
 import { postProperty, updateProperty } from "@/services/properties";
@@ -15,9 +14,10 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { api } from "@/handlers/axios";
 import dynamic from "next/dynamic";
 import Layout from "../layout";
-import { fetchDevelopers } from "@/services/developers";
+import { fetchDevelopers, addDeveloper } from "@/services/developers";
 import { AiFillDelete } from "react-icons/ai";
 import Map, { Marker, Popup } from "react-map-gl";
+import Select from "react-select";
 
 const TextEditor = dynamic(() => import("@/components/global/RichTextEditor"), {
   ssr: false,
@@ -98,13 +98,19 @@ export default function PropertyForm({ property }) {
 
   const [isUploading, setIsUploading] = useState(false);
   useEffect(() => {
-    fetchCities().then((res) => {
+    handleFetchCities();
+    handleFetchDevelopers();
+  }, []);
+  const handleFetchCities = async () => {
+    await fetchCities().then((res) => {
       setCities(res);
     });
-    fetchDevelopers().then((res) => {
+  };
+  const handleFetchDevelopers = async () => {
+    await fetchDevelopers().then((res) => {
       setDevelopers(res);
     });
-  }, []);
+  };
   const handleImageChange = async (ev) => {
     setFiles(ev.target.files);
   };
@@ -156,6 +162,28 @@ export default function PropertyForm({ property }) {
     });
   };
   const handlePageChange = () => {};
+  const developerOpts = developers.map((developer) => ({
+    value: developer,
+    label: developer.name,
+  }));
+  const cityOpts = cities.map((city) => ({
+    value: city.name,
+    label: city.name,
+  }));
+  const handleCreateDeveloper = async (e) => {
+    let developer = {
+      name: e,
+    };
+    await addDeveloper(developer);
+    handleFetchDevelopers();
+  };
+  const handleCreateCity = async (e) => {
+    let city = {
+      name: e,
+    };
+    await addCity(city);
+    handleFetchCities();
+  };
   return (
     <Layout>
       <Button onClick={() => navigate.back()}>Go Back</Button>
@@ -176,6 +204,9 @@ export default function PropertyForm({ property }) {
               .split(",")[0]
               .replace(/ /g, "-")
               .toLowerCase();
+            values.developer = values.developer.value;
+            values.city = values.city.value;
+            // console.log(values);
             if (!property) {
               if (files.length > 0) {
                 images = await handleImageUploads(values.name, "properties");
@@ -241,21 +272,24 @@ export default function PropertyForm({ property }) {
                         <label>Developed by</label>
                         <Field
                           name="developer"
-                          as="select"
-                          placeholder="City"
+                          component={(props) => (
+                            <CreatableSelect
+                              onCreateOption={handleCreateDeveloper}
+                              options={developerOpts}
+                              {...props}
+                              defaultValue={property?.developer}
+                              value={values.developer}
+                              onChange={(e) =>
+                                setValues({
+                                  ...values,
+                                  developer: e,
+                                })
+                              }
+                            />
+                          )}
+                          placeholder="Choose a developer"
                           required
-                        >
-                          <option value={"default"}>Default</option>
-                          {developers?.length > 0 &&
-                            developers?.map((developer) => (
-                              <option
-                                value={developer?.name}
-                                key={developer?._id}
-                              >
-                                {developer?.name}
-                              </option>
-                            ))}
-                        </Field>
+                        ></Field>
                       </div>
                       <div className="flex flex-col">
                         <label>Price:</label>
@@ -270,6 +304,7 @@ export default function PropertyForm({ property }) {
                         <label>Property Type</label>
                         <Field name="type" as="select" required>
                           <option value={"default"}>Default</option>
+
                           {propertyTypes?.length > 0 &&
                             propertyTypes?.map((type) => (
                               <option value={type?.value} key={type?.name}>
@@ -303,21 +338,23 @@ export default function PropertyForm({ property }) {
                         <label>City</label>
                         <Field
                           name="city"
-                          as="select"
-                          placeholder="City"
+                          component={(props) => (
+                            <CreatableSelect
+                              options={cityOpts}
+                              {...props}
+                              onCreateOption={handleCreateCity}
+                              value={values.city}
+                              onChange={(e) =>
+                                setValues({
+                                  ...values,
+                                  city: e,
+                                })
+                              }
+                            />
+                          )}
+                          placeholder="Choose a city"
                           required
-                        >
-                          <option value={"default"}>Default</option>
-                          {cities?.length > 0 &&
-                            cities?.map((city) => (
-                              <option
-                                value={city?.name}
-                                key={city?.name + city?._id}
-                              >
-                                {city?.name}
-                              </option>
-                            ))}
-                        </Field>
+                        ></Field>
                       </div>
                       <div className="flex flex-col">
                         <label>Address:</label>
@@ -447,7 +484,7 @@ export default function PropertyForm({ property }) {
                   </div>
                 )}
                 {page == 2 && (
-                  <div className="grid grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="flex flex-col gap-4">
                       <div className="flex flex-col relative gap-2">
                         <label>Pictures</label>

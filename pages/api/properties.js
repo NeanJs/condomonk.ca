@@ -40,6 +40,8 @@ export default async function handler(req, res) {
       pictures,
       floorPlans,
       slug,
+      latitude,
+      longitude,
     } = req.body;
     if (!req.body) {
       res.send(404).json({
@@ -62,6 +64,8 @@ export default async function handler(req, res) {
         pictures,
         floorPlans,
         slug,
+        latitude,
+        longitude,
       });
       res.send({
         message: "Property added successfully!",
@@ -86,6 +90,8 @@ export default async function handler(req, res) {
       floorPlans,
       slug,
       _id,
+      latitude,
+      longitude,
     } = req.body;
     const updatedProperty = await Property.findByIdAndUpdate(
       { _id },
@@ -98,6 +104,8 @@ export default async function handler(req, res) {
         completion,
         city,
         address,
+        latitude,
+        longitude,
         postalcode,
         description,
         deposits,

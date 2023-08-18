@@ -12,13 +12,22 @@ import { MdPinDrop } from "react-icons/md";
 import { Map, Marker } from "react-map-gl";
 import { checkPricing } from "@/handlers/checkPricing";
 import PropertyBlock from "@/blocks/property";
+import { useState } from "react";
+import { AiFillCloseCircle } from "react-icons/ai";
+import ContactFormB from "@/components/ContactFormB";
 
 export default function Property({ property, related }) {
+  const [modal, setModal] = useState(false);
+  const [modalImage, setModalImage] = useState(false);
+  const handleModal = (image) => {
+    setModal(true);
+    setModalImage(image);
+  };
   return (
     <HomeLayout hideFilter>
       <Head>
         <title>
-          {property?.name} | Plans, Pricing and Availability - Book Now
+          {`${property?.name} | Plans, Pricing and Availability - Book Now`}
         </title>
         <meta
           name="Description"
@@ -26,20 +35,33 @@ export default function Property({ property, related }) {
         ></meta>
       </Head>
 
-      <div className="property-page w-full lg:w-4/5 flex flex-col gap-4 mx-auto">
+      <div className="property-page w-full flex flex-col gap-4 relative items-center mx-auto">
+        {modal && (
+          <div className="w-screen h-screen fixed z-50 bg-[rgba(0,0,0,.4)] inset-0 flex items-center justify-center">
+            <div className="relative flex items-center flex-col justify-center shadow-2xl rounded-xl w-fit h-fit">
+              <span className="bg-white w-10 h-10 rounded-full flex items-center justify-center absolute top-0 right-0 md:-top-5 md:-right-5 z-20">
+                <AiFillCloseCircle
+                  className="text-4xl text-condo_red"
+                  onClick={() => setModal(false)}
+                />
+              </span>
+              <img src={modalImage} classNamew="w-[90%] h-[90%]" />
+            </div>
+          </div>
+        )}
         <div className="property w-full flex flex-col h-full gap-4">
           <div className="flex flex-col gap-2">
             <h1 className="text-2xl md:text-4xl lg:text-6xl font-semibold">
               {property?.name}
             </h1>
-            <div className="flex text-gray-500 items-center text-sm lg:text-lg gap-0.5">
+            <div className="flex flex-wrap text-gray-500 items-center text-sm lg:text-lg gap-0.5">
               <Link className="" href={"/" + property?.city.toLowerCase()}>
-                {`New Construction Homes in ${property?.city} `}
+                {`New Construction Homes in ${property?.city} >`}
               </Link>
-              <span>{`> ${property?.name}`}</span>
+              <span>{` ${property?.name}`}</span>
             </div>
           </div>
-          <div className="property-images items-start grid grid-cols-3 gap-4">
+          <div className="property-images items-start grid  grid-cols-3 gap-4 ">
             {property?.pictures?.slice(0, 6).map((image) => (
               <div className="image-container w-full h-[350px]" key={image.key}>
                 <img
@@ -63,19 +85,19 @@ export default function Property({ property, related }) {
               <span className="text-4xl font-semibold">{property?.name}</span>
               <span className="text-lg">
                 By{" "}
-                <strong className="font-semibold text-condo_red">
-                  {property?.developer}
+                <strong className="font-semibold text-black">
+                  {property?.developer?.name}
                 </strong>
               </span>
 
-              <span className="text-admin_skyblue text-xl">
+              <span className="text-condo_red text-xl">
                 {checkPricing(property?.price)}
               </span>
               <div className="flex gap-2 items-center">
                 <strong className="font-medium text-lg">
                   Project location:
                 </strong>
-                <Link href={"/" + property.city} className="underline">
+                <Link href={"/" + property?.city} className="underline">
                   {property?.city}
                 </Link>
               </div>
@@ -120,6 +142,7 @@ export default function Property({ property, related }) {
                   <div className="grid grid-cols-3 gap-4">
                     {property.floorPlans.map((floorplan) => (
                       <img
+                        onClick={() => handleModal(floorplan.url)}
                         className="drop-shadow-md"
                         src={floorplan.url}
                         alt={floorplan.key}
@@ -161,15 +184,16 @@ export default function Property({ property, related }) {
               />
             </Map>
           </div>
+          <ContactFormB property={property} />
           <div className="my-10">
-          <PropertyBlock
-            related
-            properties={related}
-            currProp={property?._id}
-            city={property.city}
-          />
+            <PropertyBlock
+              max={6}
+              related
+              properties={related}
+              currProp={property?._id}
+              city={property.city}
+            />
           </div>
-
         </div>
       </div>
     </HomeLayout>

@@ -2,7 +2,7 @@ import { Field, Form, Formik } from "formik";
 import { toast } from "react-toastify";
 import Button from "./button";
 
-export default function ContactForm() {
+export default function ContactForm({ sticky, className }) {
   const initialValues = {
     fullname: "",
     email: "",
@@ -14,10 +14,19 @@ export default function ContactForm() {
     return <textarea></textarea>;
   };
   return (
-    <div className="flex flex-col gap-.5 items-center sticky top-0">
+    <div
+      className={`flex flex-col gap-.5 items-center ${
+        sticky ? "sticky" : ""
+      } top-0`}
+    >
       <img src="/reg.png" className="mx-auto" />
 
-      <div className="flex w-full lg:w-4/5 bg-white shadow-xl rounded-xl">
+      <div
+        className={`flex w-full lg:w-4/5 bg-white rounded-xl ${className}`}
+        style={{
+          boxShadow: "0px 0px 10px 1px rgba(0,0,0,.2)",
+        }}
+      >
         <Formik
           initialValues={initialValues}
           onSubmit={(values) => {
@@ -44,7 +53,7 @@ export default function ContactForm() {
               name="message"
               className="h-[140px]"
             />
-            <Button className="bg-black border-black text-white hover:bg-transparent hover:border-black hover:text-black">
+            <Button className="mx-auto bg-black border-black text-white hover:bg-transparent hover:border-black hover:text-black">
               Contact Now
             </Button>
             <span className="text-xs">

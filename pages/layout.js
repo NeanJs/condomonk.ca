@@ -7,9 +7,7 @@ import { useRouter } from "next/router";
 import Navbar from "@/components/global/navbar";
 import Cities from "@/components/global/cities";
 import Footer from "@/components/global/footer";
-import Head from "next/head";
-import Image from "next/image";
-import ContactFormB from "@/components/ContactFormB";
+
 export default function HomeLayout({ children, hideFilter }) {
   const params = useRouter();
 
@@ -21,7 +19,7 @@ export default function HomeLayout({ children, hideFilter }) {
           <Cities city={params?.query?.city} hidden={hideFilter} />
         </div>
         <div className="w-[95%] min-h-screen flex flex-col">{children}</div>
-        <ContactFormB />
+
         <Footer />
       </div>
     </QueryClientProvider>

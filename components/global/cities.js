@@ -37,7 +37,7 @@ export default function Cities({ city, hidden }) {
 
   return (
     <div
-      className={`w-full h-fit locations bg-admin_gray ${hidden && "hidden"}`}
+      className={`w-full h-fit locations bg-admin_gray ${hidden && "hidden"} mt-[11vh]`}
     >
       {preconCityList?.length > 0 ? (
         <div className="flex gap-2 items-center flex-wrap relative">

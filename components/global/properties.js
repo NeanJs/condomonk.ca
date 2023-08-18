@@ -122,7 +122,7 @@ export default function Properties({ admin }) {
                         {property?.name}
                       </span>
                       <span className="text-admin_skyblue  text-lg">
-                        {checkPricing(property?.price)}
+                        {checkPricing(property.price) || property?.price}
                       </span>
                       <span className="text-admin_dark">
                         {property?.address}

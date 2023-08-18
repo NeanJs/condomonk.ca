@@ -24,7 +24,7 @@ export default function Footer() {
         className="opacity-25"
       />
       <div className="w-full bg-white py-4 min-h-[300px] flex flex-col justify-between">
-        <div className="w-[95%] mx-auto p-12">
+        <div className="w-[95%] mx-auto lg:p-12">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 justify-between w-full gap-4">
             <div className="flex flex-col gap-5">
               <div className="logo-area w-full flex flex-col gap-0 ">
@@ -70,7 +70,7 @@ export default function Footer() {
               <div className="grid gap-2">
                 {popularCities.map((city) => (
                   <Link
-                    className="hover:text-admin_blue"
+                    className=""
                     key={city.city_name}
                     href={`/${city.city_name}`}
                   >
@@ -84,7 +84,7 @@ export default function Footer() {
               <div className="grid gap-2">
                 {popularCities.map((city) => (
                   <Link
-                    className="hover:text-admin_blue"
+                    className=""
                     key={city.city_name}
                     href={`/${city.city_name}`}
                   >
@@ -95,8 +95,8 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="bottom-tab p-12 w-full flex items-center justify-center flex-col gap-8">
-          <div className="social-links flex items-center gap-4">
+        <div className="bottom-tab lg:py-12 w-full flex lg:items-center lg:justify-center flex-col gap-8">
+          <div className="social-links flex items-center gap-4 mx-auto mt-12">
             <a
               href="https://www.facebook.com/thehomebaba/"
               className=" text-center"

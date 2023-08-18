@@ -8,6 +8,8 @@ import PropertyCard from "@/components/global/propertycard";
 import HomeLayout from "../layout";
 import Head from "next/head";
 import { preconCityList } from "@/constants/preconCities";
+import ContactFormB from "@/components/ContactFormB";
+import ContactForm from "@/components/ContactForm";
 
 export default function PropertyByCity({ properties, cityData }) {
   const route = useRouter();
@@ -43,8 +45,8 @@ export default function PropertyByCity({ properties, cityData }) {
     <HomeLayout withFilter={false}>
       <Head>
         <title>
-          {cityData?.name || capitalize(city)} New Construction Condos |
-          Condomonk.ca
+          {`  ${cityData?.name || capitalize(city)} New Construction Condos |
+          Condomonk.ca`}
         </title>
         <meta
           name="description"
@@ -69,7 +71,7 @@ export default function PropertyByCity({ properties, cityData }) {
             construction condos in {capitalize(city)}
           </p>
         </div>
-        <div className="content w-full  flex flex-col justify-between bg-white min-h-screen">
+        <div className="content w-full flex flex-col justify-between bg-white min-h-screen">
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 self-start gap-4">
             {properties?.length > 0 ? (
               properties?.map((property, id) => (
@@ -79,9 +81,10 @@ export default function PropertyByCity({ properties, cityData }) {
               <span>No Properties Listed!</span>
             )}
           </div>
+          <ContactFormB img={"/reg.webp"} />
           {cityData && (
             <div
-              className="property-page w-full self-end justify-self-end h-full"
+              className="property-page w-full lg:w-4/5 mx-auto h-full my-20"
               dangerouslySetInnerHTML={{ __html: cityData?.description }}
             />
           )}

@@ -80,7 +80,7 @@ export default function CityForm({ cityProps }) {
                   setValue={(e) => setValues({ ...values, description: e })}
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 mt-10">
                 <Button type={"submit"}>
                   {isLoading ? (
                     <FiLoader className="animate-spin" />

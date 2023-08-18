@@ -68,7 +68,7 @@ export default function Cities() {
             <tr>
               <td>SN</td>
               <td>Name</td>
-              <td>Description</td>
+              {/* <td>Description</td> */}
               <td>Actions</td>
             </tr>
           </thead>
@@ -78,7 +78,7 @@ export default function Cities() {
                 <tr key={loc._id}>
                   <td>{key + 1}</td>
                   <td>{loc.name}</td>
-                  <td>{loc?.description}</td>
+                  {/* <td>{loc?.description}</td> */}
                   <td className="flex gap-2">
                     <Button onClick={() => route.push(`cities/${loc._id}`)}>
                       Edit
