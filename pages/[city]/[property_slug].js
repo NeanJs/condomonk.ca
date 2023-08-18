@@ -1,46 +1,43 @@
 import ContactForm from "@/components/ContactForm";
 
-import { Loader } from "@/components/global/Loader";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import HomeLayout from "@/pages/layout";
-import { fetchBySlug } from "@/services/properties";
+import { fetchBySlug, fetchProperties } from "@/services/properties";
 import Head from "next/head";
 
 import Link from "next/link";
 
 import { MdPinDrop } from "react-icons/md";
 import { Map, Marker } from "react-map-gl";
-import nFormatter from "@/components/nFormatter";
 import { checkPricing } from "@/handlers/checkPricing";
+import PropertyBlock from "@/blocks/property";
 
-export default function Property({ property }) {
+export default function Property({ property, related }) {
   return (
     <HomeLayout hideFilter>
       <Head>
-        <title>{property?.name}</title>
+        <title>
+          {property?.name} | Plans, Pricing and Availability - Book Now
+        </title>
+        <meta
+          name="Description"
+          content={`${property?.name} is a new upcoming townhouse development at ${property.city}, Canada by ${property.developer}. Get access to plans and pricing now`}
+        ></meta>
       </Head>
 
-      <div className="property-page w-4/5 flex flex-col gap-4 mx-auto">
-        {/* <div className="redirect flex gap-8">
-          <Link href={"/"} className="flex gap-2 items-center">
-            <BsArrowLeft /> Go back to search
-          </Link>
-          <div className="links flex gap-1">
-            <Link className="text-gray-500" href={`/${property?.city}`}>
-              {property?.city}
-            </Link>
-            {">"}
-            <span>{property?.name}</span>
-          </div>
-        </div> */}
-
+      <div className="property-page w-full lg:w-4/5 flex flex-col gap-4 mx-auto">
         <div className="property w-full flex flex-col h-full gap-4">
           <div className="flex flex-col gap-2">
-            <h1 className="text-6xl">{property?.name}</h1>
-            <span className="text-gray-500">
-              {`New Construction Homes in ${property?.city} > ${property?.name}`}
-            </span>
+            <h1 className="text-2xl md:text-4xl lg:text-6xl font-semibold">
+              {property?.name}
+            </h1>
+            <div className="flex text-gray-500 items-center text-sm lg:text-lg gap-0.5">
+              <Link className="" href={"/" + property?.city.toLowerCase()}>
+                {`New Construction Homes in ${property?.city} `}
+              </Link>
+              <span>{`> ${property?.name}`}</span>
+            </div>
           </div>
           <div className="property-images items-start grid grid-cols-3 gap-4">
             {property?.pictures?.slice(0, 6).map((image) => (
@@ -63,10 +60,12 @@ export default function Property({ property }) {
           </div>
           <div className="flex flex-wrap">
             <div className="property-content flex flex-col gap-2 lg:w-3/5 my-4">
-              <span className="text-4xl">{property?.name}</span>
+              <span className="text-4xl font-semibold">{property?.name}</span>
               <span className="text-lg">
                 By{" "}
-                <strong className="font-semibold">{property?.developer}</strong>
+                <strong className="font-semibold text-condo_red">
+                  {property?.developer}
+                </strong>
               </span>
 
               <span className="text-admin_skyblue text-xl">
@@ -81,7 +80,7 @@ export default function Property({ property }) {
                 </Link>
               </div>
               <div className="flex gap-2 items-center">
-                <strong className="text-lg">
+                <strong className="text-lg text-condo_red">
                   <MdPinDrop />
                 </strong>
                 <span className="">{property?.address}</span>
@@ -94,8 +93,8 @@ export default function Property({ property }) {
                 <strong className="font-medium text-lg">Project Status:</strong>
                 <span className="capitalize">{property?.status}</span>
               </div>
-              <div className="flex flex-col gap-0.5 my-5">
-                <h2 className="font-semibold">
+              <div className="flex flex-col gap-0.5 my-10">
+                <h2 className="font-semibold text-condo_red">
                   Description about {property?.name}
                 </h2>
                 <div
@@ -104,16 +103,20 @@ export default function Property({ property }) {
                 />
               </div>
 
-              <div className="flex flex-col gap-2 my-5 ">
-                <h2 className="font-medium">Deposit Structure</h2>
+              <div className="flex flex-col gap-2 my-10 ">
+                <h2 className="font-semibold text-condo_red">
+                  Deposit Structure
+                </h2>
                 <div
                   className="flex flex-col gap-2"
                   dangerouslySetInnerHTML={{ __html: property?.deposits }}
                 />
               </div>
               {property?.floorPlans?.length > 0 && (
-                <div className="floorplans flex flex-col gap-4">
-                  <h2 className="text-xl font-medium">Floorplans</h2>
+                <div className="floorplans flex flex-col gap-4 my-10">
+                  <h2 className="text-xl font-semibold text-condo_red">
+                    Floorplans
+                  </h2>
                   <div className="grid grid-cols-3 gap-4">
                     {property.floorPlans.map((floorplan) => (
                       <img
@@ -131,9 +134,9 @@ export default function Property({ property }) {
               <ContactForm />
             </div>
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 my-10">
             <div className="map-head flex flex-col gap-2">
-              <h2 className="font-medium">
+              <h2 className="font-semibold text-condo_red">
                 Property Location - {property.name}
               </h2>
               <span className="text-xs text-gray-500">
@@ -158,6 +161,15 @@ export default function Property({ property }) {
               />
             </Map>
           </div>
+          <div className="my-10">
+          <PropertyBlock
+            related
+            properties={related}
+            currProp={property?._id}
+            city={property.city}
+          />
+          </div>
+
         </div>
       </div>
     </HomeLayout>
@@ -171,10 +183,11 @@ export async function getStaticPaths() {
 }
 export async function getStaticProps({ params }) {
   const res = await fetchBySlug(params?.property_slug);
-
+  const related_condos = await fetchProperties(res.city);
   return {
     props: {
       property: res,
+      related: related_condos,
     },
     revalidate: 10,
   };

@@ -29,8 +29,8 @@ export default function PropertyForm({ property }) {
     lng: 0,
   });
   const [viewState, setViewState] = useState({
-    longitude: 0 || marker.lng || property?.longitude,
-    latitude: 0 || marker.lat || property?.latitude,
+    longitude: marker.lng || property?.longitude || 0,
+    latitude: marker.lat || property?.latitude || 0,
     zoom: 14,
   });
 
@@ -174,7 +174,7 @@ export default function PropertyForm({ property }) {
             let floors = [];
             values.slug = values.name
               .split(",")[0]
-              .replace(" ", "-")
+              .replace(/ /g, "-")
               .toLowerCase();
             if (!property) {
               if (files.length > 0) {
@@ -371,8 +371,8 @@ export default function PropertyForm({ property }) {
                         mapboxAccessToken="pk.eyJ1IjoidmlzaGFsZGhha2FsOTkiLCJhIjoiY2tocjN2bWh6MDZpZzJybGg0NXJtcm8waCJ9.TBbd_lsF-2Z9s_lqm754zg"
                       >
                         <Marker
-                          latitude={marker?.lat || property?.latitude}
-                          longitude={marker?.lng || property?.longitude}
+                          latitude={marker?.lat || property?.latitude || 0}
+                          longitude={marker?.lng || property?.longitude || 0}
                           offsetLeft={-5}
                           offsetTop={10}
                           onClick={(e) => setPopup(!popup)}

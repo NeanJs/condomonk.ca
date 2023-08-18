@@ -43,7 +43,8 @@ export default function PropertyByCity({ properties, cityData }) {
     <HomeLayout withFilter={false}>
       <Head>
         <title>
-          New Construction Condos In {cityData?.name || capitalize(city)}
+          {cityData?.name || capitalize(city)} New Construction Condos |
+          Condomonk.ca
         </title>
         <meta
           name="description"
@@ -52,7 +53,7 @@ export default function PropertyByCity({ properties, cityData }) {
           } New Pre construction Condos for sale in ${
             cityData?.name || capitalize(city)
           }|
-        Check out plans, pricing, availability for pre construction homes in{" "}
+        Check out plans, pricing, availability for pre construction hcondosomes in{" "}
         ${cityData?.name || capitalize(city)}`}
         />
       </Head>

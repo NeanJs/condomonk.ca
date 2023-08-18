@@ -1,5 +1,6 @@
 import PropertyBlock from "@/blocks/property";
 import { fetchProperties } from "@/services/properties";
+import Head from "next/head";
 
 import HomeLayout from "./layout";
 
@@ -13,6 +14,32 @@ export default function Home({
 }) {
   return (
     <>
+      <Head>
+        <meta name="Author" content="Condomonk"></meta>
+        <meta name="Email" content="info@condomonk.ca"></meta>
+        <title>
+          Condomonk | Pre Construction Condos in and around GTA, Canada.
+        </title>
+        <meta
+          name="Description"
+          content="Looking for Pre Construction condos near Greater Toronto Area, Canada? From 1 Bed to 4 Bed+ Condos, Condomonk offer early access to all best pre construction's available."
+        ></meta>
+        <link rel="canonical" href="https://condomonk.ca/" />
+        <meta name="robots" content="index, follow"></meta>
+        <meta property="og:type" content="og:website" />
+        <meta
+          property="og:title"
+          content="Condomonk | Pre Construction Condos in and around GTA, Canada."
+        />
+        <meta
+          property="og:description"
+          content="Looking for Pre Construction condos near Greater Toronto Area, Canada? From 1 Bed to 4 Bed+ Condos, Condomonk offer early access to all best pre construction's available."
+        />
+        <meta property="og:image" content="/aeee.jpg" />
+        <meta property="og:url" content="https://condomonk.ca/" />
+        <meta property="og:site_name" content="Condomonk" />
+      </Head>
+
       <HomeLayout>
         <div className="flex flex-col gap-16">
           <PropertyBlock properties={list_1?.properties} city={list_1?.city} />

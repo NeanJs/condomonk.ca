@@ -12,7 +12,7 @@ export default function ContactFormB() {
   };
 
   return (
-    <div className="flex flex-col gap-.5 items-center px-4">
+    <div className="flex flex-col gap-.5 items-center px-4 my-10">
       <img src={"/contact-bottom-2.png"} className="mx-auto w-80 my-4" />
       <div className="flex flex-col text-center my-5">
         <h2 className="font-medium text-xl">
@@ -36,7 +36,7 @@ export default function ContactFormB() {
             <Field type="email" placeholder="Your email" name="email" />
             <div className="flex flex-col relative">
               <label className="text-xs absolute top-1 left-2"> Are you a realtor or working with a realtor? </label>
-              <Field as="Select" placeholder="Full Name" name="realtor">
+              <Field as="select" placeholder="Full Name" name="realtor">
                 <option value={"yes"}>Yes</option>
                 <option value={"no"}>No</option>
               </Field>

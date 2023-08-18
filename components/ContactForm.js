@@ -33,7 +33,7 @@ export default function ContactForm() {
             <Field type="email" placeholder="Your email" name="email" />
             <div className="flex flex-col">
               <label> Are you a realtor or working with a realtor? </label>
-              <Field as="Select" placeholder="Full Name" name="realtor">
+              <Field as="select" placeholder="Full Name" name="realtor">
                 <option value={"yes"}>Yes</option>
                 <option value={"no"}>No</option>
               </Field>

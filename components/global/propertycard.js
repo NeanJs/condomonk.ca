@@ -6,7 +6,7 @@ export default function PropertyCard({ property, id }) {
   return (
     <Link
       target={"_blank"}
-      href={`${property.city.toLowerCase()}/${property?.slug}`}
+      href={`/${property.city.toLowerCase()}/${property?.slug}`}
     >
       <div
         key={property?._id}

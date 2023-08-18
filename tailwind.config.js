@@ -19,6 +19,7 @@ module.exports = {
         admin_link: "#6375F0",
         admin_skyblue: "#3da9fc",
         admin_dark: "#282A3A",
+        condo_red: "#BD0901",
       },
     },
   },
