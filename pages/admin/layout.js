@@ -7,7 +7,6 @@ import Sidebar from "@/components/sidebar";
 import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
 import "react-quill/dist/quill.snow.css";
-import ContactFormB from "@/components/ContactFormB";
 
 export const queryClient = new QueryClient();
 export default function Layout({ children }) {

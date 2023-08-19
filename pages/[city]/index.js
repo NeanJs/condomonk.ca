@@ -1,42 +1,18 @@
 import { fetchCityByName } from "@/services/locations";
-import { fetchBySlug, fetchProperties } from "@/services/properties";
+import { fetchProperties } from "@/services/properties";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+
 import PropertyCard from "@/components/global/propertycard";
 
 import HomeLayout from "../layout";
 import Head from "next/head";
-import { preconCityList } from "@/constants/preconCities";
+
 import ContactFormB from "@/components/ContactFormB";
-import ContactForm from "@/components/ContactForm";
 
 export default function PropertyByCity({ properties, cityData }) {
   const route = useRouter();
 
   const { city } = route.query;
-  // useEffect(() => {
-  //   handleGetCityData();
-  //   handleGetProperties();
-  // }, [route]);
-  // const handleGetCityData = async () => {
-  //   await fetchCityByName(city)
-  //     .then((res) => {
-  //       setCityData(res);
-  //     })
-  //     .catch((err) => {
-  //       toast.error(err.message);
-  //     });
-  // };
-  // const handleGetProperties = async () => {
-  //   await fetchProperties(city)
-  //     .then((res) => {
-  //       setProperties(res);
-  //     })
-  //     .catch((err) => {
-  //       toast.error(err.message);
-  //     });
-  // };
 
   function capitalize(str) {
     return str?.charAt(0)?.toUpperCase() + str?.slice(1);
@@ -45,18 +21,13 @@ export default function PropertyByCity({ properties, cityData }) {
     <HomeLayout withFilter={false}>
       <Head>
         <title>
-          {`  ${cityData?.name || capitalize(city)} New Construction Condos |
-          Condomonk.ca`}
+          {`${cityData?.name || capitalize(city)} New Construction Condos | Condomonk.ca`}
         </title>
         <meta
           name="description"
-          content={`${
-            properties?.length
-          } New Pre construction Condos for sale in ${
-            cityData?.name || capitalize(city)
-          }|
-        Check out plans, pricing, availability for pre construction hcondosomes in 
-        ${cityData?.name || capitalize(city)}`}
+          content={`${properties?.length} New Construction Condos for sale in ${cityData?.name || capitalize(city)} |
+        Check out plans, pricing, availability for pre construction condos in ${  cityData?.name || capitalize(city)
+        }`}
         />
       </Head>
       <div className="flex flex-col items-start gap-8">

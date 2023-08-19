@@ -38,8 +38,8 @@ export default function ContactFormB({ property, img }) {
             </div>
             <div className="flex flex-col relative">
               <label className="text-xs absolute top-1 left-2">
-                {" "}
-                Are you a realtor or working with a realtor?{" "}
+                
+                Are you a realtor or working with a realtor?
               </label>
               <Field as="select" placeholder="Full Name" name="realtor">
                 <option value={"yes"}>Yes</option>
