@@ -1,4 +1,3 @@
-import { addCity, fetchCities } from "@/services/locations";
 import { Field, Form, Formik } from "formik";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -9,21 +8,21 @@ import UPLOAD_IMAGE from "@/assets/upload_images.svg";
 import { postProperty, updateProperty } from "@/services/properties";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-
-import "mapbox-gl/dist/mapbox-gl.css";
+import { propertyStatus, propertyTypes } from "@/constants/static";
 import { api } from "@/handlers/axios";
 import dynamic from "next/dynamic";
 import Layout from "../layout";
 import { fetchDevelopers, addDeveloper } from "@/services/developers";
 import { AiFillDelete } from "react-icons/ai";
-import Map, { Marker, Popup } from "react-map-gl";
-import Select from "react-select";
+import { addCity, fetchCities } from "@/services/locations";
+import Map from "react-map-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import GeocoderControl from "@/components/Geocoder";
 
 const TextEditor = dynamic(() => import("@/components/global/RichTextEditor"), {
   ssr: false,
 });
 export default function PropertyForm({ property }) {
-  const [popup, setPopup] = useState(false);
   const [marker, setMarker] = useState({
     lat: 0,
     lng: 0,
@@ -54,43 +53,8 @@ export default function PropertyForm({ property }) {
   };
   const [listingImages, setListingImages] = useState([]);
   const [listingFloors, setListingFloors] = useState([]);
-  const propertyTypes = [
-    {
-      name: "Condo",
-      value: "condo",
-    },
-    {
-      name: "Townhomes",
-      value: "town-homes",
-    },
-    {
-      name: "Single Detached Homes",
-      value: "signle-detached-homes",
-    },
-    {
-      name: "Semi-Detached",
-      value: "semi-detached",
-    },
-  ];
   const [developers, setDevelopers] = useState([]);
-  const propertyStatus = [
-    {
-      name: "In Planning",
-      value: "in-planning",
-    },
-    {
-      name: "Upcoming",
-      value: "upcoming",
-    },
-    {
-      name: "Selling",
-      value: "selling",
-    },
-    {
-      name: "Sold Out",
-      value: "sold",
-    },
-  ];
+
   const [files, setFiles] = useState([]);
   const [floorPlans, setFloorPlans] = useState([]);
   const navigate = useRouter();
@@ -134,6 +98,7 @@ export default function PropertyForm({ property }) {
     const res = await api.post("upload", data);
     return res.data;
   };
+
   const handleDeleteImage = async ({ id, key }) => {
     await api
       .post("delete/image", { id, key })
@@ -166,6 +131,7 @@ export default function PropertyForm({ property }) {
     value: developer,
     label: developer.name,
   }));
+
   const cityOpts = cities.map((city) => ({
     value: city.name,
     label: city.name,
@@ -184,6 +150,7 @@ export default function PropertyForm({ property }) {
     await addCity(city);
     handleFetchCities();
   };
+
   return (
     <Layout>
       <Button onClick={() => navigate.back()}>Go Back</Button>
@@ -277,7 +244,6 @@ export default function PropertyForm({ property }) {
                               onCreateOption={handleCreateDeveloper}
                               options={developerOpts}
                               {...props}
-                              defaultValue={property?.developer}
                               value={values.developer}
                               onChange={(e) =>
                                 setValues({
@@ -364,6 +330,13 @@ export default function PropertyForm({ property }) {
                           // type="date"
                           type="text"
                           placeholder="Address"
+                          onChange={async (e) => {
+                            await setValues({
+                              ...values,
+                              address: e.target.value,
+                            }),
+                              handleAddressInput(e.target.value);
+                          }}
                         />
                       </div>
                       <div className="flex flex-col">
@@ -392,6 +365,7 @@ export default function PropertyForm({ property }) {
                           name="longitude"
                           required
                           // type="date"
+
                           type="text"
                           placeholder="Longitude"
                         />
@@ -403,60 +377,23 @@ export default function PropertyForm({ property }) {
                         {...viewState}
                         onMove={({ viewState }) => setViewState(viewState)}
                         style={{ width: "100%", height: 400, zIndex: 999 }}
-                        onDblClick={handleMarker}
                         mapStyle="mapbox://styles/mapbox/streets-v9"
                         mapboxAccessToken="pk.eyJ1IjoidmlzaGFsZGhha2FsOTkiLCJhIjoiY2tocjN2bWh6MDZpZzJybGg0NXJtcm8waCJ9.TBbd_lsF-2Z9s_lqm754zg"
                       >
-                        <Marker
-                          latitude={marker?.lat || property?.latitude || 0}
-                          longitude={marker?.lng || property?.longitude || 0}
-                          offsetLeft={-5}
-                          offsetTop={10}
-                          onClick={(e) => setPopup(!popup)}
-                          color="red"
-                        ></Marker>
+                        <GeocoderControl
+                          onResult={(e) => {
+                            setValues({
+                              ...values,
+                              latitude: e?.result?.center[1],
+                              longitude: e?.result?.center[0],
+                              address: e?.result?.place_name,
+                            });
+                          }}
+                          marker={true}
+                          position="top-left"
+                          mapboxAccessToken="pk.eyJ1IjoidmlzaGFsZGhha2FsOTkiLCJhIjoiY2tocjN2bWh6MDZpZzJybGg0NXJtcm8waCJ9.TBbd_lsF-2Z9s_lqm754zg"
+                        />
                       </Map>
-                      <span>Note: Check the location of project from here</span>
-                      <div className="flex gap-4">
-                        <div className="flex flex-col">
-                          <label>Latitude:</label>
-
-                          <input
-                            type="number"
-                            placeholder="Latitude"
-                            value={
-                              marker.lat == null ? values.latitude : marker.lat
-                            }
-                            onChange={(e) => {
-                              setMarker({ ...marker, lat: e.target.value });
-                              setViewState({
-                                longitude: marker.lng,
-                                latitude: e.target.value,
-                                zoom: 14,
-                              });
-                            }}
-                          />
-                        </div>
-                        <div className="flex flex-col">
-                          <label>Longitude:</label>
-                          <input
-                            type="number"
-                            max={90}
-                            placeholder="Longitude"
-                            value={
-                              marker.lng == null ? values.longitude : marker.lng
-                            }
-                            onChange={(e) => {
-                              setMarker({ ...marker, lng: e.target.value }),
-                                setViewState({
-                                  longitude: e.target.value,
-                                  latitude: marker.lat,
-                                  zoom: 14,
-                                });
-                            }}
-                          />
-                        </div>
-                      </div>
                     </div>
                   </div>
                 )}

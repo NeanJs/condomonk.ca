@@ -9,13 +9,15 @@ import Head from "next/head";
 import Link from "next/link";
 
 import { MdPinDrop } from "react-icons/md";
-import { Map, Marker } from "react-map-gl";
+import { Map, Marker, NavigationControl, Popup } from "react-map-gl";
 import { checkPricing } from "@/handlers/checkPricing";
 import PropertyBlock from "@/blocks/property";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import ContactFormB from "@/components/ContactFormB";
-
+import Button from "@/components/button";
+import { Link as Scroll } from "react-scroll";
+import { MdMessage } from "react-icons/md";
 export default function Property({ property, related }) {
   const [modal, setModal] = useState(false);
   const [modalImage, setModalImage] = useState(false);
@@ -23,6 +25,12 @@ export default function Property({ property, related }) {
     setModal(true);
     setModalImage(image);
   };
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
   return (
     <HomeLayout hideFilter>
       <Head>
@@ -31,25 +39,36 @@ export default function Property({ property, related }) {
         </title>
         <meta
           name="Description"
-          content={`${property?.name} is a new upcoming townhouse development at ${property.city}, Canada by ${property.developer}. Get access to plans and pricing now`}
+          content={`${property?.name} is a new upcoming townhouse development at ${property.city}, Canada by ${property.developer.name}. Get access to plans and pricing now`}
         ></meta>
       </Head>
 
-      <div className="property-page w-full flex flex-col gap-4 relative items-center mx-auto">
+      <div className="property-page w-full flex flex-col gap-4 relative items-center mx-auto mt-[10vh]">
         {modal && (
           <div className="w-screen h-screen fixed z-50 bg-[rgba(0,0,0,.4)] inset-0 flex items-center justify-center">
-            <div className="relative flex items-center flex-col justify-center shadow-2xl rounded-xl w-fit h-fit">
+            <div className="flex  items-center flex-col justify-center shadow-2xl rounded-xl w-[60vw] h-[80vh] relative">
               <span className="bg-white w-10 h-10 rounded-full flex items-center justify-center absolute top-0 right-0 md:-top-5 md:-right-5 z-20">
                 <AiFillCloseCircle
                   className="text-4xl text-condo_red"
                   onClick={() => setModal(false)}
                 />
               </span>
-              <img src={modalImage} classNamew="w-[90%] h-[90%]" />
+              <div className="w-full bg-white h-full p-4">
+                <img src={modalImage} className="w-full h-full object-cover" />
+              </div>
             </div>
           </div>
         )}
-        <div className="property w-full flex flex-col h-full gap-4">
+        <div className="property w-full lg:w-4/5 flex flex-col h-full gap-4">
+          <Scroll
+            to="scroller-contact"
+            className="md:hidden z-50 flex items-center justify-center fixed bottom-0 left-0 w-full text-center"
+          >
+            <Button className="w-full flex rounded-none bg-condo_red border-condo_red hover:border-condo_red hover:text-condo_red mx-auto justify-center gap-2 items-center">
+              <span>Send Message</span>
+              <MdMessage className="text-2xl" />
+            </Button>
+          </Scroll>
           <div className="flex flex-col gap-2">
             <h1 className="text-2xl md:text-4xl lg:text-6xl font-semibold">
               {property?.name}
@@ -61,15 +80,14 @@ export default function Property({ property, related }) {
               <span>{` ${property?.name}`}</span>
             </div>
           </div>
-          <div className="property-images items-start grid  grid-cols-3 gap-4 ">
+          <div className="property-images flex gap-4 min-w-[300px] md:w-full overflow-scroll md:grid md:grid-cols-3">
             {property?.pictures?.slice(0, 6).map((image) => (
-              <div className="image-container w-full h-[350px]" key={image.key}>
-                <img
-                  className="w-full h-full object-cover rounded-lg"
-                  src={image.url}
-                  alt={image.key}
-                />
-              </div>
+              <img
+                key={image.key}
+                className="w-full h-[350px] object-cover rounded-lg"
+                src={image.url}
+                alt={image.key}
+              />
             ))}
             {property?.pictures?.length < 6 &&
               property?.floorPlans?.map((plan) => (
@@ -84,7 +102,7 @@ export default function Property({ property, related }) {
             <div className="property-content flex flex-col gap-2 lg:w-3/5 my-4">
               <span className="text-4xl font-semibold">{property?.name}</span>
               <span className="text-lg">
-                By 
+                By{" "}
                 <strong className="font-semibold text-black">
                   {property?.developer?.name}
                 </strong>
@@ -154,7 +172,7 @@ export default function Property({ property, related }) {
               )}
             </div>
             <div className="lg:w-2/5 relative">
-              <ContactForm />
+              <ContactForm developer={property?.developer} sticky />
             </div>
           </div>
           <div className="flex flex-col gap-4 my-10">
@@ -168,32 +186,55 @@ export default function Property({ property, related }) {
               </span>
             </div>
             <Map
+              boxZoom={false}
               initialViewState={{
                 latitude: property?.latitude || 0,
                 longitude: property?.longitude || 0,
                 zoom: 14,
               }}
+              scrollZoom={false}
+              dragRotate={false}
               style={{ width: "100%", height: 600 }}
               mapStyle="mapbox://styles/mapbox/streets-v9"
               mapboxAccessToken="pk.eyJ1IjoidmlzaGFsZGhha2FsOTkiLCJhIjoiY2tocjN2bWh6MDZpZzJybGg0NXJtcm8waCJ9.TBbd_lsF-2Z9s_lqm754zg"
             >
-              <Marker
+              <NavigationControl
+                style={{
+                  top: 10,
+                  left: 10,
+                }}
+                captureScroll={true}
+                capturePointerMove={true}
+              />
+              <Popup
+                closeButton={false}
+                closeOnMove={false}
+                closeOnClick={false}
+                anchor={"bottom"}
                 longitude={property?.longitude || 0}
                 latitude={property?.latitude || 0}
-                color="red"
-              />
+              >
+                <span className="flex flex-col ">{property.name}</span>
+                {/* <Link
+                  className="text-admin_skyblue"
+                  href={`http://maps.google.com/maps/place/${property.latitude},${property.longitude}/@${property.latitude},${property.longitude},18z`}
+                  target="_blank"
+                >
+                  Get Directions
+                </Link> */}
+              </Popup>
             </Map>
           </div>
           <ContactFormB property={property} />
-          <div className="my-10">
-            <PropertyBlock
-              max={6}
-              related
-              properties={related}
-              currProp={property?._id}
-              city={property.city}
-            />
-          </div>
+        </div>
+        <div className="my-10">
+          <PropertyBlock
+            max={6}
+            related
+            properties={related}
+            currProp={property?._id}
+            city={property.city}
+          />
         </div>
       </div>
     </HomeLayout>

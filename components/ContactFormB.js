@@ -12,7 +12,7 @@ export default function ContactFormB({ property, img }) {
   };
 
   return (
-    <div className="flex flex-col gap-.5 items-center px-4 my-10">
+    <div className=" flex flex-col gap-.5 items-center px-4 my-10">
       <img src={img || "/contact-bottom-2.png"} className="mx-auto w-80 my-4" />
       <div className="flex flex-col text-center my-5">
         <h2 className="font-medium text-xl">
@@ -36,12 +36,16 @@ export default function ContactFormB({ property, img }) {
               <Field type="email" placeholder="Your email" name="email" />
               <Field type="tel" placeholder="Phone" name="phone" />
             </div>
-            <div className="flex flex-col relative">
-              <label className="text-xs absolute top-1 left-2">
-                
+            <div className="flex flex-col relative bg-admin_gray h-[80px] rounded-lg">
+              <label className="text-xs absolute left-1 top-1">
                 Are you a realtor or working with a realtor?
               </label>
-              <Field as="select" placeholder="Full Name" name="realtor">
+              <Field
+                as="select"
+                placeholder="Full Name"
+                name="realtor"
+                className="mt-4"
+              >
                 <option value={"yes"}>Yes</option>
                 <option value={"no"}>No</option>
               </Field>

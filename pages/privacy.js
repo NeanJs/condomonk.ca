@@ -27,7 +27,7 @@ export default function Privacy() {
         <meta property="og:site_name" content="Condomonk" />
       </Head>
 
-      <div className="container w-4/5 mx-auto">
+      <div className="container w-4/5 mx-auto mt-[10vh]">
         <h1 className="font-bold">PRIVACY POLICY</h1>
         Condomonk Inc. (condomonk.ca) respects the privacy of every individual
         who visits our website, sales office or contacts us by telephone,

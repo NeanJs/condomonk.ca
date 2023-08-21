@@ -1,3 +1,9 @@
+import HomeLayout from "../layout";
+
 export default function Blogs() {
-  return <div className="blogs w-full h-full">Blogs</div>;
+  return (
+    <HomeLayout hideFilter>
+      <div className="blogs  w-full h-full mt-[10vh]">Blogs</div>
+    </HomeLayout>
+  );
 }

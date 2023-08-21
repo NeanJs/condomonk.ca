@@ -2,7 +2,7 @@ import { Field, Form, Formik } from "formik";
 import { toast } from "react-toastify";
 import Button from "./button";
 
-export default function ContactForm({ sticky, className }) {
+export default function ContactForm({ sticky, className, developer }) {
   const initialValues = {
     fullname: "",
     email: "",
@@ -15,14 +15,13 @@ export default function ContactForm({ sticky, className }) {
   };
   return (
     <div
-      className={`flex flex-col gap-.5 items-center ${
+      className={`flex flex-col gap-.5 items-center scroller-contact ${
         sticky ? "sticky" : ""
       } top-0`}
     >
       <img src="/reg.png" className="mx-auto" />
-
       <div
-        className={`flex w-full lg:w-4/5 bg-white rounded-xl ${className}`}
+        className={`flex w-full lg:w-4/5 bg-white rounded-xl flex-col ${className}`}
         style={{
           boxShadow: "0px 0px 10px 1px rgba(0,0,0,.2)",
         }}
@@ -31,7 +30,7 @@ export default function ContactForm({ sticky, className }) {
           initialValues={initialValues}
           onSubmit={(values) => {
             // console.log(values);
-            toast.success("Message sent successfully1");
+            toast.success("Message sent successfully!");
           }}
         >
           <Form className="flex form-fields flex-col p-4 w-full mx-auto gap-3">
@@ -40,9 +39,16 @@ export default function ContactForm({ sticky, className }) {
               <Field type="tel" placeholder="Phone" name="phone" />
             </div>
             <Field type="email" placeholder="Your email" name="email" />
-            <div className="flex flex-col">
-              <label> Are you a realtor or working with a realtor? </label>
-              <Field as="select" placeholder="Full Name" name="realtor">
+            <div className="flex flex-col relative border-admin_gray h-[80px] rounded-lg">
+              <label className="text-xs absolute left-1 top-1">
+                Are you a realtor or working with a realtor?
+              </label>
+              <Field
+                as="select"
+                placeholder="Full Name"
+                name="realtor"
+                className="mt-4"
+              >
                 <option value={"yes"}>Yes</option>
                 <option value={"no"}>No</option>
               </Field>

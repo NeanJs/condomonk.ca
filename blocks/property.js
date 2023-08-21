@@ -1,3 +1,5 @@
+import Button from "@/components/button";
+import Link from "next/link";
 import PropertyCard from "../components/global/propertycard";
 
 export default function PropertyBlock({
@@ -22,13 +24,13 @@ export default function PropertyBlock({
           } in ${city}`}</span>
           {!related && (
             <p className="text-admin_dark text-xs lg:text-sm">
-              New {properties?.length} Pre construction Condos for sale in 
+              New {properties?.length} Pre construction Condos for sale in{" "}
               {city} | Check out plans, pricing, availability for pre
               construction condos in {city}
             </p>
           )}
         </div>
-        {/* <Link href={`/`}>
+        {/* <Link href={`/${city.toLowerCase()}`}>
           <Button
             primary
             className={`text-black border-black hover:border-black hover:bg-black hover:text-white`}

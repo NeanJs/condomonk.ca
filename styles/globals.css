@@ -44,6 +44,9 @@ h6 {
 .property-page ul li {
   @apply list-disc ml-10;
 }
+.mapboxgl-ctrl-geocoder--input {
+  padding-left: 30px !important;
+}
 .form-fields input,
 textarea,
 select,
@@ -133,7 +136,7 @@ table.products a {
   @apply bg-white hidden absolute;
 }
 .dropdown-content .col {
-  @apply p-2 w-[120px] ease-linear duration-200 border-2 border-transparent;
+  @apply p-2 text-left w-full ease-linear duration-200 border-2 border-transparent;
 }
 .dropdown-content .col:hover {
   @apply border-admin_gray bg-admin_gray;
